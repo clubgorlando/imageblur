@@ -17,21 +17,40 @@ class Image
     end
   end
 
-  def blur
-    blur_points = get_all_blur_points
+  # def blur
+  #   blur_points = get_all_blur_points
 
+  #   blur_points.each do |point|
+  #     x = point[0]
+  #     y = point[1]
+  #     blur_single_point(x - 1, y)
+  #     blur_single_point(x, y - 1)
+  #     blur_single_point(x + 1, y)
+  #     blur_single_point(x, y + 1)
+  #   end
+  # end
+
+  def blur(distance)
+    if distance <= 0
+      return
+    end
+
+    blur_points = get_all_blur_points
     blur_points.each do |point|
       x = point[0]
       y = point[1]
-      blur_single_point(x - 1, y)
-      blur_single_point(x, y - 1)
-      blur_single_point(x + 1, y)
-      blur_single_point(x, y + 1)
-      
- 
-     
+      xcounter = distance * -1
+      while xcounter <= distance
+        ycounter = distance * -1
+        while ycounter <= distance
+          if (xcounter.abs + ycounter.abs) <= distance
+            blur_single_point((x + xcounter), (y + ycounter))
+          end
+          ycounter = ycounter + 1
+        end
+      xcounter = xcounter + 1
+      end
     end
-
   end
 
   def output_image
@@ -95,10 +114,12 @@ class Image
 end
 
 image = Image.new([
-  [1, 0, 0, 1],
-  [0, 0, 1, 0],
   [0, 0, 0, 0],
-  [1, 0, 0, 1] 
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+  [0, 1, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0]
 ])
 
 image2 = Image.new([
@@ -111,44 +132,38 @@ image2 = Image.new([
 ])
 
 image3 = Image.new([
-  [0, 0, 0, 0],
-  [0, 0, 1, 0],
-  [0, 0, 0, 0],
-  [0, 1, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0]
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 1]
 ])
 
-image4 = Image.new([
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [1, 0, 0, 0],
-  [0, 0, 0, 0]
-])
 
 image.output_image
+image.blur(1)
 puts "\n"
-image.blur
 image.output_image
-puts "\n"
+puts "-----------"
 
 image2.output_image
+image2.blur(2)
 puts "\n"
-image2.blur
 image2.output_image
-puts "\n"
+puts "-----------"
 
 image3.output_image
+image3.blur(3)
 puts "\n"
-image3.blur
 image3.output_image
-puts "\n"
+puts "------------"
 
-image4.output_image
-puts "\n"
-image4.blur
-image4.output_image
-puts "\n"
+
 
